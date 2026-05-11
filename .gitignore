@@ -32,9 +32,24 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.local.example
+
+# Personal portfolio data — exports/imports with real positions, anywhere in the repo.
+# Covers CSVs, Excel files, and any folder you might park personal data in.
+*.csv
+*.xlsx
+*.xls
+*.tsv
+/portfolio/
+/holdings/
+/private/
 
 # vercel
 .vercel
+
+# Supabase CLI workspace (regenerated on every link/gen)
+supabase/.temp/
+supabase/.branches/
 
 # typescript
 *.tsbuildinfo
