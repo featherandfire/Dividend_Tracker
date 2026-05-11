@@ -7,8 +7,7 @@ Personal-portfolio dividend tracker. Stores holdings in Supabase, cross-referenc
 - **Next.js 16** (App Router, Turbopack) + TypeScript
 - **Supabase** (Postgres + Auth) for persistence; Row Level Security so holdings are per-user
 - **Tailwind v4** + **shadcn/ui** components (Base UI under the hood)
-- **Recharts** for the payment calendar bars and sector pie
-- Fonts: **Fraunces** (display) + **Outfit** (body) + **JetBrains Mono** (tabular)
+
 
 ## Setup
 
@@ -81,19 +80,4 @@ node scripts/<name>.mjs
 - **`populate-sources.mjs`** — for every cached row with a price, re-fetch from Finnhub + Yahoo and write the raw values + chosen source. Useful after schema changes that add new source columns.
 - **`backfill-fmp.mjs`** — for likely-payers without FMP data, fetch from FMP and re-pick the canonical source via median across providers.
 
-## Visual system
 
-- **Column colors** are consistent everywhere:
-  - 🟠 Orange — Finnhub
-  - 🟡 Gold — Yahoo
-  - 💎 Turquoise — FMP
-  - 🔵 Blue — Polygon
-- **Bold** weight marks the canonical source driving the portfolio totals.
-- **Coral red** is reserved for the suspicious-yield warning (>50% yield = likely bad source data, e.g. foreign-ADR currency bugs).
-- An empty `—` cell in a **muted source tone** means "API checked, no dividend found"; an empty `—` in **plain gray** means "API hasn't checked this ticker yet."
-
-## Notes
-
-- Free-tier quotas are tight, especially FMP (250/day). The codebase gates FMP behind a "likely-payer" check so non-payers don't burn the daily cap.
-- Polygon's bulk validation is throttled at 4/min to stay under the 5/min free-tier limit. ~25 min for the dividend payers; ~70 min for non-payers.
-- The proxy middleware (`src/proxy.ts`) gates every page behind Supabase Auth using the Next.js 16 Proxy convention (previously called Middleware).
